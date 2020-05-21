@@ -28,17 +28,19 @@ let errorsUrl = deets.webhooks.errors;
 		page.waitForNavigation({waitUntil: 'domcontentloaded'}),
 		page.click('button.button.button-primary'),
 	]);
-	for (let i=0;i<((await page.$$('div.file-row-left')).length);i++) {
-		newFiles.push(await page.evaluate("document.querySelectorAll('div.file-row-left')[" + i + "].innerText"))
+	const xpath = '//div[@class="file-row-content-component__info"]/h4'
+	for (const element of (await page.$x(xpath))) {
+		newFiles.push(await page.evaluate(el => el.innerText, element));
 	}
 	await browser.close();
+
 	if (newFiles.length > 0) {
 		let diff = newFiles.length - files.length;
 		let diffFiles = [];
 		let msgText = "";
 		if (diff > 0) {		
 			diffFiles = newFiles.filter(file => files.indexOf(file) < 0);
-			msgText = "<@&566468284007055370> New MDE upload(s)"
+			msgText = `<@&${deets.tagrole}> New MDE upload(s)`
 		} else if (diff < 0) {
 			diffFiles = files.filter(file => newFiles.indexOf(file) < 0);
 			msgText = "MDE upload(s) deleted"
@@ -46,7 +48,7 @@ let errorsUrl = deets.webhooks.errors;
 			for (let i in files) {
 				if (files[i] != newFiles[i]) {
 					diffFiles.push(newFiles[i]);
-					msgText = "<@&566468284007055370> MDE uploads changed (either renamed or deleted & uploaded at the same time)";
+					msgText = `<@&${deets.tagrole}> MDE uploads changed (either renamed or deleted & uploaded at the same time)`;
 				}
 			}
 		}
