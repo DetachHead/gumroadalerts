@@ -40,7 +40,7 @@ let errorsUrl = deets.webhooks.errors;
 		let msgText = "";
 		if (diff > 0) {		
 			diffFiles = newFiles.filter(file => files.indexOf(file) < 0);
-			msgText = `<@&${deets.tagrole}> New MDE upload(s)`
+			msgText = `<@&${deets.tagrole}> New ${deets.name} upload(s)`
 		} else if (diff < 0) {
 			diffFiles = files.filter(file => newFiles.indexOf(file) < 0);
 			msgText = "MDE upload(s) deleted"
@@ -48,12 +48,12 @@ let errorsUrl = deets.webhooks.errors;
 			for (let i in files) {
 				if (files[i] != newFiles[i]) {
 					diffFiles.push(newFiles[i]);
-					msgText = `<@&${deets.tagrole}> MDE uploads changed (either renamed or deleted & uploaded at the same time)`;
+					msgText = `<@&${deets.tagrole}> ${deets.name} uploads changed (either renamed or deleted & uploaded at the same time)`;
 				}
 			}
 		}
 		if (diffFiles.length > 0) {
-			msgText = msgText + ":\n```"+diffFiles.join("\n")+"```\n at http://gum.co/hydewars"
+			msgText = msgText + ":\n```"+diffFiles.join("\n")+"```\n at "+deets.link
 			await axios.post(notifsUrl, {username: "Old Greg",content: msgText}).catch(err => {
 				console.log(err)
 			});
