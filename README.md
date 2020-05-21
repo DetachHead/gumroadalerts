@@ -1,2 +1,2 @@
 # gumroadalerts
-checks a gumorad page for new uploads & notifies a discord channel when theres changes
+checks a gumroad page for new uploads & notifies a discord channel when theres changes
