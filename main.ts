@@ -91,7 +91,7 @@ async function checkGumroad(gumroad: gumroad) {
 			}
 		}
 
-		//create and send the msg(s):
+		//create and send the msg(s) if there were any changes:
 		if (diffFiles.length > 0) {
 			//split msg up in case its above discords character limit (TODO: less fucked method...):
 			const msgs: string[] = [`${msgText} - at ${gumroad.link}\n\`\`\``]
@@ -111,6 +111,8 @@ async function checkGumroad(gumroad: gumroad) {
 					await error("failed to send msg")
 				});
 			}
+
+			//write the new files to the files json:
 			fs.writeFile(filepath, JSON.stringify(newFiles), async err => {
 				console.log(err)
 				await error("failed to write to the files json")
