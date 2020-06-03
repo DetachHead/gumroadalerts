@@ -51,17 +51,12 @@ async function checkGumroad(gumroad: gumroad) {
 	//get to the content list:
 	await page.goto(`https://gumroad.com/d/${gumroad.linkid}`);
 	const filenameXpath = '//div[@class="file-row-content-component__info"]/h4'
-	console.log(await page.$x(filenameXpath))
 	if ((await page.$x(filenameXpath)).length === 0) { //some gumroads make u enter ur email
-		console.log("sdfgdfgs")
 		await page.type('input#email', gumroad.email);
 		await Promise.all([
 			page.waitForNavigation({waitUntil: 'domcontentloaded'}),
 			page.click('button.button.button-primary')
 		])
-	} else {
-		
-		console.log("fghdfghfdghjfghjfghjg")
 	}
 
 	//get the titles of each upload:
