@@ -35,7 +35,7 @@ async function checkGumroad(gumroad: gumroad) {
 	const newFiles: string[] = [];
 
 	//open browser:
-    const browser = await puppeteer.launch({headless: false, args: ['--no-sandbox', '--disable-setuid-sandbox']})
+    const browser = await puppeteer.launch({headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox']})
     const page = await browser.newPage();
 	await page.setRequestInterception(true);
 
