@@ -108,10 +108,7 @@ async function checkGumroad(gumroad: gumroad) {
 			}
 
 			//write the new files to the files json:
-			fs.writeFile(filepath, JSON.stringify(newFiles), async err => {
-				console.log(err)
-				await error("failed to write to the files json")
-			});
+			fs.writeFileSync(filepath, JSON.stringify(newFiles));
 		}
 	} else {
 		await error("failed to find any files")
