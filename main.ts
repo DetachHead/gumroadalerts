@@ -35,8 +35,8 @@ async function checkGumroad(gumroad: gumroad) {
 	const newFiles: string[] = [];
 
 	//open browser:
-    const browser = await puppeteer.launch({headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox']})
-    const page = await browser.newPage();
+	const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] })
+	const page = await browser.newPage();
 	await page.setRequestInterception(true);
 
 	//dont load useless shit:
@@ -47,14 +47,14 @@ async function checkGumroad(gumroad: gumroad) {
 			request.continue();
 		}
 	});
-	
+
 	//get to the content list:
 	await page.goto(`https://gumroad.com/d/${gumroad.linkid}`);
 	const filenameXpath = '//div[@class="file-row-content-component__info"]/h4'
 	if ((await page.$x(filenameXpath)).length === 0) { //some gumroads make u enter ur email
 		await page.type('input#email', gumroad.email);
 		await Promise.all([
-			page.waitForNavigation({waitUntil: 'domcontentloaded'}),
+			page.waitForNavigation({ waitUntil: 'domcontentloaded' }),
 			page.click('button.button.button-primary')
 		])
 	}
@@ -71,7 +71,7 @@ async function checkGumroad(gumroad: gumroad) {
 		let diff = newFiles.length - files.length;
 		let diffFiles = [];
 		let msgText = "";
-		if (diff > 0) {		
+		if (diff > 0) {
 			diffFiles = newFiles.filter(file => files.indexOf(file) < 0);
 			msgText = `New ${gumroad.name} upload(s)`
 		} else if (diff < 0) {
@@ -92,16 +92,16 @@ async function checkGumroad(gumroad: gumroad) {
 			const msgs: string[] = [`${msgText} - at ${gumroad.link}\n\`\`\``]
 			for (const file of diffFiles) {
 				const appendedText = `\n${file}`
-				if (msgs[msgs.length-1].length > (2000 - appendedText.length))
+				if (msgs[msgs.length - 1].length > (2000 - appendedText.length))
 					msgs.push("")
-				msgs[msgs.length-1] += appendedText
+				msgs[msgs.length - 1] += appendedText
 			}
-			if (msgs[msgs.length-1].length <= 2000 - 3)
-				msgs[msgs.length-1] += "```"
-			
+			if (msgs[msgs.length - 1].length <= 2000 - 3)
+				msgs[msgs.length - 1] += "```"
+
 			//send msg(s):
 			for (const msg of msgs) {
-				await axios.post(notifsUrl, {username: "gumroad checker",content: msg}).catch(async err => {
+				await axios.post(notifsUrl, { username: "gumroad checker", content: msg }).catch(async err => {
 					console.log(err)
 					await error("failed to send msg")
 				});
@@ -120,7 +120,7 @@ async function checkGumroad(gumroad: gumroad) {
 }
 
 async function error(text: string) {
-	await axios.post(errorsUrl, {username: "gumroad checker",content: text}).catch(err => {
+	await axios.post(errorsUrl, { username: "gumroad checker", content: text }).catch(err => {
 		console.log(err)
 	});
 }
