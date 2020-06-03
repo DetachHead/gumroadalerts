@@ -1,3 +1,4 @@
-deets.json
-files.json
+config.json
 node_modules
+*.js
+*_files.json
