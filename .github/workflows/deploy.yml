@@ -17,4 +17,4 @@ jobs:
         shell: bash
       - name: deploy
         run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /home/gumroadalerts && git pull && tsc"
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} -o StrictHostKeyChecking=no "cd /home/gumroadalerts && git pull && tsc"
