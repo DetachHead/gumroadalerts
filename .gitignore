@@ -2,3 +2,4 @@ config.json
 node_modules
 *.js
 *_files.json
+.idea
