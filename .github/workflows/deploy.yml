@@ -10,4 +10,4 @@ jobs:
     steps:
       - name: deploy
         run: |
-          ssh $SSH_USER@$SSH_HOST "cd /home/gumroadalerts && git pull && tsc"
+          ssh ${{ secrets.SSH_USER }}@$${{ secrets.SSH_HOST }} "cd /home/gumroadalerts && git pull && tsc"
