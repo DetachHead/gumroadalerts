@@ -8,6 +8,13 @@ jobs:
     name: deploy
     runs-on: ubuntu-latest
     steps:
+      - name: Create SSH key
+        run: |
+          mkdir -p ~/.ssh/
+          cd ~/.ssh/
+          echo "${{secrets.SSH_PRIVATE_KEY}}" > ./id_rsa
+          sudo chmod 600 ./id_rsa
+        shell: bash
       - name: deploy
         run: |
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /home/gumroadalerts && git pull && tsc"
