@@ -5,6 +5,7 @@
   "main": "main.js",
   "scripts": {
     "run": "ts-node main",
+    "setup": "npm i && tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
