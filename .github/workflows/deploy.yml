@@ -9,6 +9,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: deploy
-        env:
         run: |
           ssh $SSH_USER@$SSH_HOST "cd /home/gumroadalerts && git pull && tsc"
