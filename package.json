@@ -4,7 +4,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "watch": "shx rm -rf ./lib/* && tsc -w",
+    "run": "ts-node main",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -14,6 +14,7 @@
     "axios": "^0.19.0",
     "puppeteer": "^1.18.1",
     "shx": "^0.3.2",
+    "ts-node": "^9.0.0",
     "typescript": "^3.9.3"
   }
 }
