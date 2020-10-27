@@ -1,0 +1,14 @@
+name: deploy
+on:
+  push:
+    branches:
+      - gh-actions #testing deploy
+jobs:
+  my-job:
+    name: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: deploy
+        env:
+        run: |
+          ssh $SSH_USER@$SSH_HOST "cd /home/gumroadalerts && git pull && tsc"
