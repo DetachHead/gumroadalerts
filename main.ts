@@ -115,7 +115,7 @@ async function checkGumroad(gumroad: gumroad) {
             fs.writeFileSync(filepath, JSON.stringify(newFiles));
         }
     } else {
-        await error("failed to find any files")
+        await error(`failed to find any files for ${gumroad.name}`)
     }
     console.log(`finished checking gumroad for ${gumroad.name}`);
 }
