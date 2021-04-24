@@ -4,18 +4,29 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "run": "ts-node main",
+    "run": "tsc && node main",
     "setup": "npm i && tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint:check": "eslint main.ts",
+    "lint:fix": "npm run lint:check -- --fix",
+    "format:check": "prettier --check .",
+    "format:fix": "prettier --write ."
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@detachhead/ts-helpers": "^7.0.0",
     "@types/puppeteer": "^3.0.0",
     "axios": "^0.21.1",
+    "fast-array-diff": "^1.0.1",
     "puppeteer": "^1.18.1",
     "shx": "^0.3.2",
-    "ts-node": "^9.0.0",
-    "typescript": "^3.9.3"
+    "typescript": "^4.3.0-beta"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.22.0",
+    "@typescript-eslint/parser": "^4.13.0",
+    "eslint": "^7.17.0",
+    "eslint-config-prettier": "^7.1.0",
+    "prettier": "2.2.1"
   }
 }
