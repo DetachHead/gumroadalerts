@@ -1,0 +1,30 @@
+name: deploy
+on:
+  - push
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 15.4
+      - run: npm run setup
+      - run: npm run format:check
+      - run: npm run lint:check
+  deploy:
+    if: github.ref == 'refs/heads/master'
+    name: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create SSH key
+        run: |
+          mkdir -p ~/.ssh/
+          cd ~/.ssh/
+          echo "${{secrets.SSH_PRIVATE_KEY}}" > ./id_rsa
+          sudo chmod 600 ./id_rsa
+        shell: bash
+      - name: deploy
+        run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} -o StrictHostKeyChecking=no "cd /home/gumroadalerts && git pull && npm run setup"
