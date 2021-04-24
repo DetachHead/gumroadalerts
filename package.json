@@ -8,7 +8,7 @@
     "run:dev": "npm run build && npm run run:prod",
     "run:prod": "node dist/main",
     "setup": "npm ci && npm run build",
-    "lint:check": "eslint main.ts",
+    "lint:check": "eslint src --ext .ts",
     "lint:fix": "npm run lint:check -- --fix",
     "format:check": "prettier --check .",
     "format:fix": "prettier --write ."
