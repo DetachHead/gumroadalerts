@@ -16,6 +16,7 @@ jobs:
   deploy:
     if: github.ref == 'refs/heads/master'
     name: deploy
+    needs: check
     runs-on: ubuntu-latest
     steps:
       - name: Create SSH key
