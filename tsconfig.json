@@ -71,5 +71,6 @@
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitOverride": true,
     "resolveJsonModule": true
-  }
+  },
+  "include": ["src"]
 }

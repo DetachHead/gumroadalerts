@@ -2,9 +2,10 @@
   "name": "gumroadalerts",
   "version": "1.0.0",
   "description": "",
-  "main": "main.js",
+  "main": "dist/main.js",
   "scripts": {
-    "run": "tsc && node main",
+    "build": "rimraf ./dist && tsc",
+    "run": "tsc && node dist/main",
     "setup": "npm i && tsc",
     "lint:check": "eslint main.ts",
     "lint:fix": "npm run lint:check -- --fix",
@@ -16,17 +17,22 @@
   "dependencies": {
     "@detachhead/ts-helpers": "^7.0.0",
     "@types/puppeteer": "^3.0.0",
-    "axios": "^0.21.1",
+    "dedent-js": "^1.0.1",
+    "discord-webhook-node": "^1.1.8",
     "fast-array-diff": "^1.0.1",
+    "lodash": "^4.17.21",
     "puppeteer": "^1.18.1",
     "shx": "^0.3.2",
+    "temp-write": "^4.0.0",
     "typescript": "^4.3.0-beta"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.168",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.13.0",
     "eslint": "^7.17.0",
     "eslint-config-prettier": "^7.1.0",
-    "prettier": "2.2.1"
+    "prettier": "2.2.1",
+    "rimraf": "^3.0.2"
   }
 }

@@ -1,20 +1,18 @@
 import puppeteer from 'puppeteer'
 import fs from 'fs'
-import axios from 'axios'
+import { diff } from 'fast-array-diff'
+import { entries } from '@detachhead/ts-helpers/dist/utilityFunctions/Any'
+import dedent from 'dedent-js'
+import { Config, Gumroad } from './types'
+import path from 'path'
+import { Webhook } from 'discord-webhook-node'
+import tempWrite from 'temp-write'
 
-import config from './config.json'
+const config: Config = require('../config.json')
 
-const notifsUrl = config.webhooks.notifs
-const errorsUrl = config.webhooks.errors
+const successWebhook = new Webhook(config.webhooks.notifs)
+const errorWebhook = new Webhook(config.webhooks.errors)
 
-type gumroad = {
-  name: string
-  link: string
-  linkid: string
-  email: string
-}
-
-// main
 ;(async () => {
   await Promise.all(config.gumroads.map((gumroad) => checkGumroad(gumroad)))
 })()
@@ -27,9 +25,9 @@ function getExistingFilesArray(jsonpath: string): string[] {
 }
 
 // checks a specified gumroad for new content and messages the discord if new content is found
-async function checkGumroad(gumroad: gumroad) {
+async function checkGumroad(gumroad: Gumroad) {
   console.log(`checking gumroad for ${gumroad.name}`)
-  const filepath = `${__dirname}/${gumroad.name}_files.json`
+  const filepath = path.join(__dirname, `../${gumroad.name}_files.json`)
   const files = getExistingFilesArray(filepath)
   const newFiles: string[] = []
 
@@ -68,63 +66,47 @@ async function checkGumroad(gumroad: gumroad) {
       newFiles.push(await page.evaluate((el) => el.innerText, element))
     }
   } catch (e) {
-    await error(e)
+    await sendMessage('error', e)
   } finally {
     await browser.close()
   }
 
   // compare the current list to the previously saved list & msg the discord webhook if theres a difference:
   if (newFiles.length > 0) {
-    const diff = newFiles.length - files.length
-    let diffFiles = []
-    let msgText = ''
-    if (diff > 0) {
-      diffFiles = newFiles.filter((file) => files.indexOf(file) < 0)
-      msgText = `New ${gumroad.name} upload(s)`
-    } else if (diff < 0) {
-      diffFiles = files.filter((file) => newFiles.indexOf(file) < 0)
-      msgText = `${gumroad.name} upload(s) deleted`
-    } else {
-      for (const i in files) {
-        if (files[i] != newFiles[i]) {
-          diffFiles.push(newFiles[i])
-          msgText = `${gumroad.name} uploads changed (either renamed or deleted & uploaded at the same time)`
-        }
-      }
-    }
+    const diffFiles = diff(files, newFiles)
+
+    const msgText = dedent`**${gumroad.name}** upload(s) changed - at ${gumroad.link}
+    ${entries(diffFiles)
+      .map(
+        ([changeType, files]) =>
+          dedent`${changeType}:
+            \`\`\`
+            ${files.join('\n')}\`\`\``,
+      )
+      .join('')}`
 
     // create and send the msg(s) if there were any changes:
-    if (diffFiles.length > 0) {
-      // split msg up in case its above discords character limit (TODO: less fucked method...):
-      const msgs: string[] = [`${msgText} - at ${gumroad.link}\n\`\`\``]
-      for (const file of diffFiles) {
-        const appendedText = `\n${file}`
-        if (msgs[msgs.length - 1].length > 2000 - appendedText.length) msgs.push('')
-        msgs[msgs.length - 1] += appendedText
-      }
-      if (msgs[msgs.length - 1].length <= 2000 - 3) msgs[msgs.length - 1] += '```'
-
-      // send msg(s):
-      for (const msg of msgs) {
-        await axios
-          .post(notifsUrl, { username: 'gumroad checker', content: msg })
-          .catch(async (err) => {
-            console.log(err)
-            await error('failed to send msg')
-          })
-      }
-
+    if (Object.values(diffFiles).flat().length > 0) {
+      await sendMessage('success', msgText)
       // write the new files to the files json:
       fs.writeFileSync(filepath, JSON.stringify(newFiles))
     }
   } else {
-    await error(`failed to find any files for ${gumroad.name}`)
+    await sendMessage('error', `failed to find any files for ${gumroad.name}`)
   }
   console.log(`finished checking gumroad for ${gumroad.name}`)
 }
 
-async function error(text: string) {
-  await axios.post(errorsUrl, { username: 'gumroad checker', content: text }).catch((err) => {
-    console.log(err)
-  })
+async function sendMessage(type: 'success' | 'error', text: string) {
+  const webhook = { success: successWebhook, error: errorWebhook }[type]
+  webhook.setUsername('gumroad alerts')
+  if (text.length <= 2000) {
+    await webhook.send(text)
+  } else {
+    const file = await tempWrite(text, 'long message.md')
+    await webhook.sendFile(file)
+    fs.unlink(file, (err) => {
+      if (err) console.error(err)
+    })
+  }
 }
