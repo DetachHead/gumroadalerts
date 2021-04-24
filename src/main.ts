@@ -8,6 +8,7 @@ import path from 'path'
 import { Webhook } from 'discord-webhook-node'
 import tempWrite from 'temp-write'
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const config: Config = require('../config.json')
 
 const successWebhook = new Webhook(config.webhooks.notifs)
@@ -34,7 +35,7 @@ async function checkGumroad(gumroad: Gumroad) {
   // open browser:
   const browser = await puppeteer.launch({
     headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox'], //TODO: fix this properly instead of disabling security
+    args: ['--no-sandbox', '--disable-setuid-sandbox'], // TODO: fix this properly instead of disabling security
   })
   try {
     const page = await browser.newPage()
