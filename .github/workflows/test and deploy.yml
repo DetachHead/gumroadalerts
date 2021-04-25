@@ -10,7 +10,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 15.4
-      - run: yarn run setup
+      - run: yarn run setup:dev
       - run: yarn run format:check
       - run: yarn run lint:check
   deploy:
@@ -28,4 +28,4 @@ jobs:
         shell: bash
       - name: deploy
         run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} -o StrictHostKeyChecking=no "cd /home/gumroadalerts && git pull && npm run setup"
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} -o StrictHostKeyChecking=no "cd /home/gumroadalerts && git pull && npm run setup:prod"
