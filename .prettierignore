@@ -5,3 +5,4 @@ package-lock.json
 *_files.json
 .pnp.cjs
 .yarn
+.vscode
