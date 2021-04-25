@@ -1437,7 +1437,7 @@ __metadata:
     rimraf: ^3.0.2
     shx: ^0.3.2
     temp-write: ^4.0.0
-    typescript: ^4.3.0-beta
+    typescript: 4.3.0-beta
   languageName: unknown
   linkType: soft
 
@@ -2649,23 +2649,23 @@ resolve@^1.1.6:
   languageName: node
   linkType: hard
 
-typescript@^4.3.0-beta:
-  version: 4.3.0-dev.20210424
-  resolution: "typescript@npm:4.3.0-dev.20210424"
+typescript@4.3.0-beta:
+  version: 4.3.0-beta
+  resolution: "typescript@npm:4.3.0-beta"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: d1f83abb42538b67d904408e6a13a53f9ca01fc6a959b324d979378d6aa32205076cf8aa06cb4610ff08e2ab1d9e50347ea287617099a660a2db1848a1f09f9c
+  checksum: c165f915ad33919643fceeb71a70f5483fba468509bf4a04a7465f61dc14886dfc5f9bdf5ef3dd4dbf4d7204854abe1935e215d2c15080dd0bf6cba39e009908
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.3.0-beta#~builtin<compat/typescript>":
-  version: 4.3.0-dev.20210424
-  resolution: "typescript@patch:typescript@npm%3A4.3.0-dev.20210424#~builtin<compat/typescript>::version=4.3.0-dev.20210424&hash=34ad7d"
+"typescript@patch:typescript@4.3.0-beta#~builtin<compat/typescript>":
+  version: 4.3.0-beta
+  resolution: "typescript@patch:typescript@npm%3A4.3.0-beta#~builtin<compat/typescript>::version=4.3.0-beta&hash=34ad7d"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: f519f9762e20fbd480b3138c9c82649c7e112bb2c3dd90d50ac613e00a1e37706b36b5ff46ce24ac4fdc4bb83d4360998e3c86c35a6a8ab073ef12dd1b62ea3d
+  checksum: 499d52598d790aaf64421e2837528a53d84e7235f5dc33c786f5029deb9a4576240b2d8c2ac22b5941c8dc3fb82eb83b01dc40f61ca65ab6531758b109dbc791
   languageName: node
   linkType: hard
 
