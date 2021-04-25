@@ -6,9 +6,8 @@
   "scripts": {
     "build": "rimraf ./dist && yarn pnpify tsc",
     "run:dev": "yarn run build && yarn run run:prod",
-    "run:prod": "node dist/main",
-    "setup:dev": "yarn install --production && npm run build",
-    "setup:prod": "yarn install --immutable && npm run build",
+    "run:prod": "NODE_ENV=production node dist/main",
+    "setup": "yarn install --immutable && npm run build",
     "lint:check": "eslint src --ext .ts",
     "lint:fix": "yarn run lint:check -- --fix",
     "format:check": "prettier --check .",
