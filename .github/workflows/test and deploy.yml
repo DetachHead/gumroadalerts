@@ -10,9 +10,9 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 15.4
-      - run: npm run setup
-      - run: npm run format:check
-      - run: npm run lint:check
+      - run: yarn run setup
+      - run: yarn run format:check
+      - run: yarn run lint:check
   deploy:
     if: github.ref == 'refs/heads/master'
     name: deploy
