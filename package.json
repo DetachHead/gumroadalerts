@@ -16,7 +16,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@detachhead/ts-helpers": "7.0.1-d53cd47ab3e47f4d850a4a4d1808372d8cd5c196",
+    "@detachhead/ts-helpers": "7.0.0-56fddd9273c70b028585f63a2ec0e9f01ff9902b",
     "@types/puppeteer": "^3.0.0",
     "@yarnpkg/pnpify": "^3.0.0-rc.3",
     "dedent-js": "^1.0.1",

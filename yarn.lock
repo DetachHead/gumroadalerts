@@ -41,9 +41,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@detachhead/ts-helpers@npm:7.0.1-d53cd47ab3e47f4d850a4a4d1808372d8cd5c196":
-  version: 7.0.1-d53cd47ab3e47f4d850a4a4d1808372d8cd5c196
-  resolution: "@detachhead/ts-helpers@npm:7.0.1-d53cd47ab3e47f4d850a4a4d1808372d8cd5c196"
+"@detachhead/ts-helpers@npm:7.0.0-56fddd9273c70b028585f63a2ec0e9f01ff9902b":
+  version: 7.0.0-56fddd9273c70b028585f63a2ec0e9f01ff9902b
+  resolution: "@detachhead/ts-helpers@npm:7.0.0-56fddd9273c70b028585f63a2ec0e9f01ff9902b"
   dependencies:
     "@types/lodash": ^4.14.167
     date-fns: ^2.21.1
@@ -52,7 +52,7 @@ __metadata:
     ts-toolbelt: ^9.6.0
     tsdef: ^0.0.14
     utility-types: ^3.10.0
-  checksum: 6ac12237b73f581133aec41775e271e9d5edf8e5b3d433a7fad6f0781e4badfddea65cbb8d3dbc61f3ecbf583ed90f496f55a66b28d7ef20b056021b4d37ef04
+  checksum: 285a650fd7a78c0e3a5768e54892e541a09d07bc508bfef3b5d2980b24bce678fb81edcae811129f39a3c8503db8f6b3bcb4509060de70446f93816e0bbaefa6
   languageName: node
   linkType: hard
 
@@ -1419,7 +1419,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "gumroadalerts@workspace:."
   dependencies:
-    "@detachhead/ts-helpers": 7.0.1-d53cd47ab3e47f4d850a4a4d1808372d8cd5c196
+    "@detachhead/ts-helpers": 7.0.0-56fddd9273c70b028585f63a2ec0e9f01ff9902b
     "@types/lodash": ^4.14.168
     "@types/node": ^14.14.41
     "@types/puppeteer": ^3.0.0
