@@ -80,9 +80,11 @@ async function checkGumroad(gumroad: Gumroad) {
     ${entries(diffFiles)
       .map(
         ([changeType, files]) =>
-          dedent`${changeType}:
-            \`\`\`
-            ${files.join('\n')}\`\`\``,
+          files.length === 0
+            ? ''
+            : dedent`${changeType}:
+              \`\`\`
+              ${files.join('\n')}\`\`\``,
       )
       .join('')}`
 
