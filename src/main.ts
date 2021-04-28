@@ -78,11 +78,10 @@ async function checkGumroad(gumroad: Gumroad) {
 
     const msgText = dedent`**${gumroad.name}** upload(s) changed - at ${gumroad.link}
     ${entries(diffFiles)
-      .map(
-        ([changeType, files]) =>
-          files.length === 0
-            ? ''
-            : dedent`${changeType}:
+      .map(([changeType, files]) =>
+        files.length === 0
+          ? ''
+          : dedent`${changeType}:
               \`\`\`
               ${files.join('\n')}\`\`\``,
       )
