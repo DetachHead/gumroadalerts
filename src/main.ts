@@ -67,7 +67,7 @@ async function checkGumroad(gumroad: Gumroad) {
       )
     ).filter(isDefined)
   } catch (e) {
-    await sendMessage('error', e)
+    await sendMessage('error', e.toString())
   } finally {
     await browser.close()
   }
