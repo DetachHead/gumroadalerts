@@ -3,80 +3,76 @@ import fs from 'fs'
 import { diff } from 'fast-array-diff'
 import { entries } from '@detachhead/ts-helpers/dist/utilityFunctions/Any'
 import dedent from 'dedent-js'
-import { Config, Gumroad } from './types'
 import path from 'path'
 import { Webhook } from 'discord-webhook-node'
 import tempWrite from 'temp-write'
 import { isDefined } from 'ts-is-present'
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const config: Config = require('../config.json')
-
-const successWebhook = new Webhook(config.webhooks.notifs)
-const errorWebhook = new Webhook(config.webhooks.errors)
-
+import config, { loadConfig } from '@app-config/main'
+import { Gumroad } from './@types/lcdev__app-config'
 ;(async () => {
+  await loadConfig()
+  const successWebhook = new Webhook(config.webhooks.notifs)
+  const errorWebhook = new Webhook(config.webhooks.errors)
   await Promise.all(config.gumroads.map((gumroad) => checkGumroad(gumroad)))
-})()
 
-// returns an array of existing file names from the specified saved json. creates an empty one and returns an empty array if it doesnt exist
-function getExistingFilesArray(jsonpath: string): string[] {
-  if (fs.existsSync(jsonpath)) return JSON.parse(fs.readFileSync(jsonpath).toString())
-  fs.writeFileSync(jsonpath, '[]')
-  return []
-}
-
-// checks a specified gumroad for new content and messages the discord if new content is found
-async function checkGumroad(gumroad: Gumroad) {
-  console.log(`checking gumroad for ${gumroad.name}`)
-  const filepath = path.join(__dirname, `../${gumroad.name}_files.json`)
-  const files = getExistingFilesArray(filepath)
-  let newFiles: string[] = []
-
-  // open browser:
-  const browser = await chromium.launch({
-    headless: true,
-  })
-  try {
-    const page = await browser.newPage()
-    // dont load useless shit:
-    await page.route('**', (route) => {
-      if (['image', 'stylesheet', 'font'].indexOf(route.request().resourceType()) !== -1) {
-        route.abort()
-      } else {
-        route.continue()
-      }
-    })
-
-    // get to the content list:
-    await page.goto(`https://gumroad.com/d/${gumroad.linkid}`, { waitUntil: 'domcontentloaded' })
-    const filenameSelector = '//div[@class="file-row-content-component__info"]/h4'
-    if ((await page.$(`xpath=${filenameSelector}`)) === null) {
-      // some gumroads make u enter ur email
-      await page.type('input#email', gumroad.email)
-      await Promise.all([
-        page.waitForNavigation({ waitUntil: 'domcontentloaded' }),
-        page.click('button.button.button-primary'),
-      ])
-    }
-
-    // get the titles of each upload:
-    newFiles = (
-      await Promise.all(
-        await (await page.$$(filenameSelector)).map((element) => element.innerText()),
-      )
-    ).filter(isDefined)
-  } catch (e) {
-    await sendMessage('error', e.toString())
-  } finally {
-    await browser.close()
+  // returns an array of existing file names from the specified saved json. creates an empty one and returns an empty array if it doesnt exist
+  function getExistingFilesArray(jsonpath: string): string[] {
+    if (fs.existsSync(jsonpath)) return JSON.parse(fs.readFileSync(jsonpath).toString())
+    fs.writeFileSync(jsonpath, '[]')
+    return []
   }
 
-  // compare the current list to the previously saved list & msg the discord webhook if theres a difference:
-  if (newFiles.length > 0) {
-    const diffFiles = diff(files, newFiles)
+  // checks a specified gumroad for new content and messages the discord if new content is found
+  async function checkGumroad(gumroad: Gumroad) {
+    console.log(`checking gumroad for ${gumroad.name}`)
+    const filepath = path.join(__dirname, `../${gumroad.name}_files.json`)
+    const files = getExistingFilesArray(filepath)
+    let newFiles: string[] = []
 
-    const msgText = dedent`**${gumroad.name}** upload(s) changed - at ${gumroad.link}
+    // open browser:
+    const browser = await chromium.launch({
+      headless: !config.debug,
+    })
+    try {
+      const page = await browser.newPage()
+      // dont load useless shit:
+      await page.route('**', (route) => {
+        if (['image', 'stylesheet', 'font'].indexOf(route.request().resourceType()) !== -1) {
+          route.abort()
+        } else {
+          route.continue()
+        }
+      })
+
+      // get to the content list:
+      await page.goto(`https://gumroad.com/d/${gumroad.linkid}`, { waitUntil: 'domcontentloaded' })
+      const filenameSelector = '//div[@class="file-row-content-component__info"]/h4'
+      if ((await page.$(`xpath=${filenameSelector}`)) === null) {
+        // some gumroads make u enter ur email
+        await page.type('input#email', gumroad.email)
+        await Promise.all([
+          page.waitForNavigation({ waitUntil: 'domcontentloaded' }),
+          page.click('button.button.button-primary'),
+        ])
+      }
+
+      // get the titles of each upload:
+      newFiles = (
+        await Promise.all(
+          await (await page.$$(filenameSelector)).map((element) => element.innerText()),
+        )
+      ).filter(isDefined)
+    } catch (e) {
+      await sendMessage('error', e.toString())
+    } finally {
+      await browser.close()
+    }
+
+    // compare the current list to the previously saved list & msg the discord webhook if theres a difference:
+    if (newFiles.length > 0) {
+      const diffFiles = diff(files, newFiles)
+
+      const msgText = dedent`**${gumroad.name}** upload(s) changed - at ${gumroad.link}
     ${entries(diffFiles)
       .map(([changeType, files]) =>
         files.length === 0
@@ -87,28 +83,29 @@ async function checkGumroad(gumroad: Gumroad) {
       )
       .join('')}`
 
-    // create and send the msg(s) if there were any changes:
-    if (Object.values(diffFiles).flat().length > 0) {
-      await sendMessage('success', msgText)
-      // write the new files to the files json:
-      fs.writeFileSync(filepath, JSON.stringify(newFiles))
+      // create and send the msg(s) if there were any changes:
+      if (Object.values(diffFiles).flat().length > 0) {
+        await sendMessage('success', msgText)
+        // write the new files to the files json:
+        fs.writeFileSync(filepath, JSON.stringify(newFiles))
+      }
+    } else {
+      await sendMessage('error', `failed to find any files for ${gumroad.name}`)
     }
-  } else {
-    await sendMessage('error', `failed to find any files for ${gumroad.name}`)
+    console.log(`finished checking gumroad for ${gumroad.name}`)
   }
-  console.log(`finished checking gumroad for ${gumroad.name}`)
-}
 
-async function sendMessage(type: 'success' | 'error', text: string) {
-  const webhook = { success: successWebhook, error: errorWebhook }[type]
-  webhook.setUsername('gumroad alerts')
-  if (text.length <= 2000) {
-    await webhook.send(text)
-  } else {
-    const file = await tempWrite(text, 'long message.md')
-    await webhook.sendFile(file)
-    fs.unlink(file, (err) => {
-      if (err) console.error(err)
-    })
+  async function sendMessage(type: 'success' | 'error', text: string) {
+    const webhook = { success: successWebhook, error: errorWebhook }[type]
+    webhook.setUsername('gumroad alerts')
+    if (text.length <= 2000) {
+      await webhook.send(text)
+    } else {
+      const file = await tempWrite(text, 'long message.md')
+      await webhook.sendFile(file)
+      fs.unlink(file, (err) => {
+        if (err) console.error(err)
+      })
+    }
   }
-}
+})()

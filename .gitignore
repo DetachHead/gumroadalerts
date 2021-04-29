@@ -1,4 +1,11 @@
-config.json
+.app-config.secrets.json
+.app-config.secrets.yml
+.app-config.secrets.json5
+.app-config.secrets.toml
+.app-config.json
+.app-config.yml
+.app-config.json5
+.app-config.toml
 node_modules
 *_files.json
 .idea

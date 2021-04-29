@@ -12,11 +12,13 @@
     "lint:check": "eslint src --ext .ts",
     "lint:fix": "npm run lint:check -- --fix",
     "format:check": "prettier --check .",
-    "format:fix": "prettier --write ."
+    "format:fix": "prettier --write .",
+    "generateTypes": "app-config generate"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@app-config/main": "^2.4.6",
     "@detachhead/ts-helpers": "7.0.1-d53cd47ab3e47f4d850a4a4d1808372d8cd5c196",
     "@types/puppeteer": "^3.0.0",
     "dedent-js": "^1.0.1",

@@ -3,3 +3,4 @@ dist
 package.json
 package-lock.json
 *_files.json
+**/lcdev__app-config/*
