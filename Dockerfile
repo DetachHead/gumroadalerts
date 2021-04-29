@@ -7,4 +7,4 @@ RUN npm ci
 RUN npm run build
 USER pwuser
 RUN cd /home/pwuser/app
-CMD ["/bin/sh", "entrypoint.sh"]
+ENTRYPOINT ["/bin/sh", "entrypoint.sh"]
