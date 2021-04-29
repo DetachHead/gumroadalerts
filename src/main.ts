@@ -1,4 +1,4 @@
-import puppeteer from 'puppeteer'
+import { chromium } from 'playwright'
 import fs from 'fs'
 import { diff } from 'fast-array-diff'
 import { entries } from '@detachhead/ts-helpers/dist/utilityFunctions/Any'
@@ -7,6 +7,7 @@ import { Config, Gumroad } from './types'
 import path from 'path'
 import { Webhook } from 'discord-webhook-node'
 import tempWrite from 'temp-write'
+import { isDefined } from 'ts-is-present'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const config: Config = require('../config.json')
@@ -30,30 +31,27 @@ async function checkGumroad(gumroad: Gumroad) {
   console.log(`checking gumroad for ${gumroad.name}`)
   const filepath = path.join(__dirname, `../${gumroad.name}_files.json`)
   const files = getExistingFilesArray(filepath)
-  const newFiles: string[] = []
+  let newFiles: string[] = []
 
   // open browser:
-  const browser = await puppeteer.launch({
+  const browser = await chromium.launch({
     headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox'], // TODO: fix this properly instead of disabling security
   })
   try {
     const page = await browser.newPage()
-    await page.setRequestInterception(true)
-
     // dont load useless shit:
-    page.on('request', (request) => {
-      if (['image', 'stylesheet', 'font'].indexOf(request.resourceType()) !== -1) {
-        request.abort()
+    await page.route('**', (route) => {
+      if (['image', 'stylesheet', 'font'].indexOf(route.request().resourceType()) !== -1) {
+        route.abort()
       } else {
-        request.continue()
+        route.continue()
       }
     })
 
     // get to the content list:
-    await page.goto(`https://gumroad.com/d/${gumroad.linkid}`)
-    const filenameXpath = '//div[@class="file-row-content-component__info"]/h4'
-    if ((await page.$x(filenameXpath)).length === 0) {
+    await page.goto(`https://gumroad.com/d/${gumroad.linkid}`, { waitUntil: 'domcontentloaded' })
+    const filenameSelector = '//div[@class="file-row-content-component__info"]/h4'
+    if ((await page.$(`xpath=${filenameSelector}`)) === null) {
       // some gumroads make u enter ur email
       await page.type('input#email', gumroad.email)
       await Promise.all([
@@ -63,9 +61,11 @@ async function checkGumroad(gumroad: Gumroad) {
     }
 
     // get the titles of each upload:
-    for (const element of await page.$x(filenameXpath)) {
-      newFiles.push(await page.evaluate((el) => el.innerText, element))
-    }
+    newFiles = (
+      await Promise.all(
+        await (await page.$$(filenameSelector)).map((element) => element.innerText()),
+      )
+    ).filter(isDefined)
   } catch (e) {
     await sendMessage('error', e)
   } finally {

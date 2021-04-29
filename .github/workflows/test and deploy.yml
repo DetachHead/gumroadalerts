@@ -10,10 +10,21 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 15.4
-      - run: npm run setup
+      - run: npm run setup:ci
       - run: npm run build
       - run: npm run format:check
       - run: npm run lint:check
+  gcloud:
+    needs: check
+    name: gcloud deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions-hub/gcloud@master
+        env:
+          PROJECT_ID: ${{ secrets.GCLOUD_PROJECT_ID }}
+          APPLICATION_CREDENTIALS: ${{ secrets.GCLOUD_APPLICATION_CREDENTIALS }}
+        with:
+          args: functions deploy gumroadalerts --entrypoint
   deploy:
     if: github.ref == 'refs/heads/master'
     name: deploy

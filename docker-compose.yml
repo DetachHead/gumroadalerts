@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  job:
+    image: mcr.microsoft.com/playwright:focal
+    working_dir: /home/pwuser/app
+    volumes:
+      - ./:/home/pwuser/app
+    command: "bash -c 'npm run run:dev'"
+    init: true
+    security_opt:
+      - seccomp=assets/seccomp_profile.json
