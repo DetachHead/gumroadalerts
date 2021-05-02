@@ -5,8 +5,7 @@
   "main": "dist/main.js",
   "scripts": {
     "build": "rimraf ./dist && tsc",
-    "run:dev": "npm run build && node -r source-map-support/register dist/main",
-    "run:prod": "node dist/main",
+    "run": "npm run build && node -r source-map-support/register dist/main",
     "setup:ci": "PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 npm ci && npm run build",
     "setup:dev": "npm install && npm run build",
     "lint:check": "eslint src --ext .ts",
@@ -21,6 +20,7 @@
     "@app-config/main": "^2.4.6",
     "@detachhead/ts-helpers": "7.0.1-d53cd47ab3e47f4d850a4a4d1808372d8cd5c196",
     "@types/puppeteer": "^3.0.0",
+    "aws-sdk": "^2.897.0",
     "dedent-js": "^1.0.1",
     "discord-webhook-node": "^1.1.8",
     "fast-array-diff": "^1.0.1",
@@ -28,6 +28,7 @@
     "playwright": "^1.10.0",
     "shx": "^0.3.2",
     "temp-write": "^4.0.0",
+    "throw-expression": "^1.0.2",
     "ts-is-present": "^1.2.1",
     "typescript": "^4.3.0-beta"
   },
@@ -39,6 +40,7 @@
     "eslint-config-prettier": "^7.1.0",
     "prettier": "2.2.1",
     "rimraf": "^3.0.2",
+    "serverless": "^2.39.0",
     "source-map-support": "^0.5.19"
   }
 }

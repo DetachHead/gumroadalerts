@@ -5,7 +5,7 @@ services:
     working_dir: /home/pwuser/app
     volumes:
       - ./:/home/pwuser/app
-    command: "bash -c 'npm run run:dev'"
+    command: "bash -c 'npm run run'"
     init: true
     security_opt:
       - seccomp=assets/seccomp_profile.json

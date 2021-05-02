@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="main.js" type="NodeJSConfigurationType" path-to-node="docker-compose://[$PROJECT_DIR$/docker-compose.yml]:job/node" nameIsGenerated="true" node-parameters="-r source-map-support/register" path-to-js-file="dist/main.js" working-dir="$PROJECT_DIR$">
+    <method v="2">
+      <option name="NpmBeforeRunTask" enabled="true">
+        <package-json value="$PROJECT_DIR$/package.json" />
+        <command value="run" />
+        <scripts>
+          <script value="build" />
+        </scripts>
+        <node-interpreter value="project" />
+        <envs />
+      </option>
+    </method>
+  </configuration>
+</component>
