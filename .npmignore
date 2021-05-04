@@ -1,3 +1,11 @@
+# package directories
+node_modules
+jspm_packages
+
+# Serverless directories
+.serverless
+
+# local config
 .app-config.secrets.json
 .app-config.secrets.yml
 .app-config.secrets.json5
@@ -6,7 +14,5 @@
 .app-config.yml
 .app-config.json5
 .app-config.toml
-node_modules
-.idea
+
 /dist/
-.serverless

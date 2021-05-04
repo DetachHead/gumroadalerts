@@ -1,0 +1,46 @@
+type: object
+additionalProperties: false
+
+required:
+  - gumroads
+  - webhooks
+
+properties:
+  gumroads: { $ref: '#/definitions/Gumroads' }
+  webhooks: { $ref: '#/definitions/Webhooks' }
+  debug: { type: boolean }
+
+definitions:
+  Gumroads:
+    type: array
+    items:
+      type: object
+      additionalProperties: false
+      required:
+        - name
+        - link
+        - linkid
+        - email
+      properties:
+        name: { type: string }
+        link:
+          type: string
+          format: uri
+        linkid: { type: string }
+        email:
+          type: string
+          format: email
+
+  Webhooks:
+    type: object
+    additionalProperties: false
+    required:
+      - notifs
+      - errors
+    properties:
+      notifs:
+        type: string
+        format: uri
+      errors:
+        type: string
+        format: uri
