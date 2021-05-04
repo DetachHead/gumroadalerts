@@ -59,7 +59,7 @@
           <value>
             <SchemaInfo>
               <option name="name" value="serverless" />
-              <option name="relativePathToSchema" value="https://raw.githubusercontent.com/softprops/serverless-yml-schema/master/serverless-schema.json" />
+              <option name="relativePathToSchema" value="https://raw.githubusercontent.com/softprops/serverless-yml-schema/0e782707e3dae7b9cd054fbeb1e1c245e4c2610d/serverless-schema.json" />
               <option name="patterns">
                 <list>
                   <Item>

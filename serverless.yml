@@ -22,6 +22,7 @@ frameworkVersion: '2.39.0'
 
 provider:
   name: aws
+  runtime: nodejs14.x
   timeout: 120
   ecr:
     images: # Definitions of images that later can be referenced by key in `function.image`
@@ -61,7 +62,7 @@ provider:
 
 functions:
   gumroadalerts:
-    image: image
+    handler: dist/handler.handler
     events:
       - schedule: rate(15 minutes)
     environment:
