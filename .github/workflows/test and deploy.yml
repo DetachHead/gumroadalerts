@@ -14,7 +14,8 @@ jobs:
       - run: npm run build
       - run: npm run format:check
       - run: npm run lint:check
-  build-and-push:
+  build-and-deploy:
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     needs:
       - check
