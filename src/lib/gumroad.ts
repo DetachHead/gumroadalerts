@@ -45,7 +45,7 @@ export async function getFiles(
     withCredentials: true,
   })
   const authenticityToken = getAttribute(authResponse, 'input[name=authenticity_token]', 'value')
-  const files = (JSON.parse(
+  return (JSON.parse(
     getAttribute(
       await instance.post(
         'https://gumroad.com/confirm-redirect',
@@ -61,5 +61,4 @@ export async function getFiles(
       'data-react-props',
     ),
   ) as DownloadPage_FileList).files
-  return files
 }
