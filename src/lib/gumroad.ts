@@ -44,12 +44,7 @@ export async function getFiles(
   const authResponse = await instance.get(`https://gumroad.com/d/${gumroadID}`, {
     withCredentials: true,
   })
-  const authenticityToken = getAttribute(
-    authResponse,
-    // language=JQuery-CSS
-    'input[name=authenticity_token]',
-    'value',
-  )
+  const authenticityToken = getAttribute(authResponse, 'input[name=authenticity_token]', 'value')
   const files = (JSON.parse(
     getAttribute(
       await instance.post(
@@ -62,7 +57,6 @@ export async function getFiles(
         },
         { withCredentials: true },
       ),
-      // language=JQuery-CSS
       'div[data-react-class="DownloadPage/FileList"]',
       'data-react-props',
     ),
