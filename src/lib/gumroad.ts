@@ -5,7 +5,7 @@ import { CookieJar } from 'tough-cookie'
 import axiosCookieJarSupport from 'axios-cookiejar-support'
 
 export interface DownloadPage_FileList {
-  files: DownloadPage_FileList_File[]
+  content_items: DownloadPage_FileList_File[]
   download_info: Record<string, DownloadPage_FileList_Info>
 }
 
@@ -60,5 +60,5 @@ export async function getFiles(
       'div[data-react-class="DownloadPage/FileList"]',
       'data-react-props',
     ),
-  ) as DownloadPage_FileList).files
+  ) as DownloadPage_FileList).content_items
 }
