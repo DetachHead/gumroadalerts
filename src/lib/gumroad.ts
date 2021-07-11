@@ -41,14 +41,14 @@ export async function getFiles(
   const instance = axios.create({ baseURL: 'https://gumroad.com', withCredentials: true })
   axiosCookieJarSupport(instance)
   instance.defaults.jar = new CookieJar()
-  const authResponse = await instance.get(`https://gumroad.com/d/${gumroadID}`, {
+  const authResponse = await instance.get(`/d/${gumroadID}`, {
     withCredentials: true,
   })
   const authenticityToken = getAttribute(authResponse, 'input[name=authenticity_token]', 'value')
   return (JSON.parse(
     getAttribute(
       await instance.post(
-        'https://gumroad.com/confirm-redirect',
+        '/confirm-redirect',
         {
           authenticity_token: authenticityToken,
           id: gumroadID,
