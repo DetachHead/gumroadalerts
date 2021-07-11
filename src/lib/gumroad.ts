@@ -38,7 +38,7 @@ export async function getFiles(
   gumroadID: string,
   email: Email,
 ): Promise<DownloadPage_FileList_File[]> {
-  const instance = axios.create({ baseURL: 'https://gumroad.com', withCredentials: true })
+  const instance = axios.create({ baseURL: 'https://app.gumroad.com', withCredentials: true })
   axiosCookieJarSupport(instance)
   instance.defaults.jar = new CookieJar()
   const authResponse = await instance.get(`/d/${gumroadID}`, {
