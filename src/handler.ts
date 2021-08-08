@@ -8,6 +8,7 @@ import * as s3 from './lib/s3'
 import * as gumroad from './lib/gumroad'
 import { Email } from '@detachhead/ts-helpers/dist/utilityTypes/String'
 import { sendWebhook } from './lib/discord'
+import { DownloadPage_FileList_Item } from './lib/gumroad'
 
 export async function handler(): Promise<void> {
   await loadConfig()
@@ -47,8 +48,8 @@ export async function handler(): Promise<void> {
 async function getChangedFiles(gumroadConfig: Gumroad) {
   console.log(`checking gumroad for ${gumroadConfig.name}`)
   const files = await s3.getFiles(gumroadConfig.name)
-  const newFiles = (await gumroad.getFiles(gumroadConfig.linkid, gumroadConfig.email as Email)).map(
-    (file) => file.file_name,
+  const newFiles = getFolderPaths(
+    await gumroad.getFiles(gumroadConfig.linkid, gumroadConfig.email as Email),
   )
 
   if (newFiles.length > 0) {
@@ -57,6 +58,20 @@ async function getChangedFiles(gumroadConfig: Gumroad) {
     throw new Error(`failed to find any files for ${gumroadConfig.name}`)
   }
 }
+
+/**
+ * gets an array of folder paths to each file in an array of {@link DownloadPage_FileList_Item}s
+ *
+ * @example
+ * const paths = getFolderPaths(items)
+ * console.log(paths) // ["folder/filename", "folder/subfolder/otherfile"]
+ */
+export const getFolderPaths = (items: DownloadPage_FileList_Item[]): string[] =>
+  items.flatMap((item) =>
+    item.type === 'file'
+      ? item.file_name
+      : getFolderPaths(item.children).map((child) => `${item.name}/${child}`),
+  )
 
 /** outputs a message for the given {@link Gumroad} to a webhook */
 async function sendGumroadMessage(webhook: Webhook, gumroad: Gumroad, text: string) {
