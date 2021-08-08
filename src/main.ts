@@ -1,4 +1,4 @@
 import { handler } from './handler'
-
-// noinspection JSIgnoredPromiseFromCall
-handler()
+handler().catch((err) => {
+    throw err
+})
