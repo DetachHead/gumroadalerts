@@ -5,15 +5,15 @@ import assert from 'typed-nodejs-assert'
 const items: DownloadPage_FileList_Item[] = require('../fixtures/gumroadItems.json')
 
 describe('getFolderPathsFromId', () => {
-  test('asdf', () => {
-    assert.deepStrictEqual(
-      [
-        'a folder/a file',
-        'folder with nested folder/asdf',
-        'folder with nested folder/nested folder/file within nested folder',
-        'top level file',
-      ],
-      getFolderPaths(items),
-    )
-  })
+    test('asdf', () => {
+        assert.deepStrictEqual(
+            [
+                'a folder/a file',
+                'folder with nested folder/asdf',
+                'folder with nested folder/nested folder/file within nested folder',
+                'top level file',
+            ],
+            getFolderPaths(items),
+        )
+    })
 })
