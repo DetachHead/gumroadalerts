@@ -1,0 +1,95 @@
+[
+  {
+    "type": "folder",
+    "id": "",
+    "name": "a folder",
+    "children": [
+      {
+        "type": "file",
+        "file_name": "a file",
+        "description": "",
+        "extension": "MP4",
+        "file_size": 2702934866,
+        "pagelength": null,
+        "duration": 1985,
+        "id": "",
+        "download_url": "/r/asdf",
+        "stream_url": null,
+        "audio_params": null,
+        "kindle_data": null,
+        "latest_media_location": null,
+        "content_length": null,
+        "read_url": null,
+        "subtitle_files": []
+      }
+    ]
+  },
+  {
+    "type": "folder",
+    "id": "",
+    "name": "folder with nested folder",
+    "children": [
+      {
+        "type": "file",
+        "file_name": "asdf",
+        "description": "",
+        "extension": "MP4",
+        "file_size": 3187659499,
+        "pagelength": null,
+        "duration": 3456,
+        "id": "",
+        "download_url": "",
+        "stream_url": "",
+        "audio_params": null,
+        "kindle_data": null,
+        "latest_media_location": null,
+        "content_length": null,
+        "read_url": null,
+        "subtitle_files": []
+      },
+      {
+        "type": "folder",
+        "id": "",
+        "name": "nested folder",
+        "children": [
+          {
+            "type": "file",
+            "file_name": "file within nested folder",
+            "description": "",
+            "extension": "MP4",
+            "file_size": 3187659499,
+            "pagelength": null,
+            "duration": 3456,
+            "id": "",
+            "download_url": "",
+            "stream_url": "",
+            "audio_params": null,
+            "kindle_data": null,
+            "latest_media_location": null,
+            "content_length": null,
+            "read_url": null,
+            "subtitle_files": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "file",
+    "file_name": "top level file",
+    "description": "",
+    "extension": "MP4",
+    "file_size": 2011371764,
+    "pagelength": null,
+    "duration": 1240,
+    "id": "",
+    "download_url": "",
+    "stream_url": "",
+    "audio_params": null,
+    "kindle_data": null,
+    "latest_media_location": null,
+    "content_length": null,
+    "read_url": null,
+    "subtitle_files": []
+  }
+]

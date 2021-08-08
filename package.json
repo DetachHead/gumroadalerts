@@ -4,7 +4,8 @@
   "description": "",
   "main": "dist/main.js",
   "scripts": {
-    "build": "rimraf ./dist && tsc",
+    "test": "jest",
+    "build": "rimraf ./dist && tsc -p tsconfig.build.json",
     "run": "npm run build && node -r source-map-support/register dist/main",
     "setup:ci": "npm ci && npm run build",
     "setup:dev": "npm install && npm run build",
@@ -34,17 +35,22 @@
     "throw-expression": "^1.0.2",
     "tough-cookie": "^2.5.0",
     "ts-is-present": "^1.2.1",
-    "typescript": "^4.3.0-beta"
+    "ts-xor": "^1.0.8",
+    "typed-nodejs-assert": "^1.1.0"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.20",
     "@types/lodash": "^4.14.168",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.13.0",
     "eslint": "^7.17.0",
     "eslint-config-prettier": "^7.1.0",
+    "jest": "^26.6.3",
     "prettier": "2.2.1",
     "rimraf": "^3.0.2",
     "serverless": "^2.39.0",
-    "source-map-support": "^0.5.19"
+    "source-map-support": "^0.5.19",
+    "ts-jest": "^26.4.4",
+    "typescript": "^4.3.0-beta"
   }
 }
