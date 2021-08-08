@@ -11,7 +11,6 @@ jobs:
         with:
           node-version: 15.4
       - run: npm run setup:ci
-      - run: npm run build
       - run: npm run format:check
       - run: npm run lint:check
       - run: npm run test
