@@ -20,7 +20,6 @@
   "dependencies": {
     "@app-config/main": "^2.4.6",
     "@detachhead/ts-helpers": "7.0.1-d53cd47ab3e47f4d850a4a4d1808372d8cd5c196",
-    "@types/puppeteer": "^3.0.0",
     "@types/tough-cookie": "^4.0.0",
     "aws-sdk": "^2.897.0",
     "axios": "^0.21.1",
@@ -30,13 +29,10 @@
     "discord-webhook-node": "^1.1.8",
     "fast-array-diff": "^1.0.1",
     "lodash": "^4.17.21",
-    "shx": "^0.3.2",
     "temp-write": "^4.0.0",
     "throw-expression": "^1.0.2",
     "to-error": "^1.0.3",
     "tough-cookie": "^2.5.0",
-    "ts-is-present": "^1.2.1",
-    "ts-xor": "^1.0.8",
     "typed-nodejs-assert": "^1.1.0"
   },
   "devDependencies": {
