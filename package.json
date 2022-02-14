@@ -22,7 +22,7 @@
     "@detachhead/ts-helpers": "7.0.1-d53cd47ab3e47f4d850a4a4d1808372d8cd5c196",
     "@types/tough-cookie": "^4.0.0",
     "aws-sdk": "^2.897.0",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "axios-cookiejar-support": "^1.0.1",
     "cheerio": "1.0.0-rc.6",
     "dedent-js": "^1.0.1",
