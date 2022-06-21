@@ -1,8 +1,9 @@
 import { Email } from '@detachhead/ts-helpers/dist/utilityTypes/String'
 import axios from 'axios'
-import { getAttribute } from './helper'
+import { getAttribute, getSelector } from './helper'
 import { CookieJar } from 'tough-cookie'
 import axiosCookieJarSupport from 'axios-cookiejar-support'
+import { DataNode } from 'domhandler/lib/node'
 
 export type DownloadPage_FileList_Item = {
     id: string
@@ -47,7 +48,7 @@ export const getFiles = async (
     })
     const authenticityToken = getAttribute(authResponse, 'input[name=authenticity_token]', 'value')
     return (JSON.parse(
-        getAttribute(
+        (getSelector(
             await instance.post(
                 '/confirm-redirect',
                 {
@@ -58,8 +59,7 @@ export const getFiles = async (
                 },
                 { withCredentials: true },
             ),
-            'div[data-react-class="DownloadPage/FileList"]',
-            'data-react-props',
-        ),
+            'script[data-component-name="DownloadFileList"]',
+        ).children[0] as DataNode).data,
     ) as DownloadPage_FileList).content_items
 }
