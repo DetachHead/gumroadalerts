@@ -59,7 +59,7 @@ export const getFiles = async (
                 },
                 { withCredentials: true },
             ),
-            'script[data-component-name="DownloadFileList"]',
+            'script[data-component-name="ContentContainer"]',
         ).children[0] as DataNode).data,
     ) as DownloadPage_FileList).content_items
 }
