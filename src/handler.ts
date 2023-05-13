@@ -8,7 +8,7 @@ import * as s3 from './lib/s3'
 import * as gumroad from './lib/gumroad'
 import { Email } from '@detachhead/ts-helpers/dist/utilityTypes/String'
 import { sendWebhook } from './lib/discord'
-import { DownloadPage_FileList_Item } from './lib/gumroad'
+import { ContentItem } from './lib/gumroad'
 import toError from 'to-error'
 
 export const handler = async (): Promise<void> => {
@@ -61,13 +61,13 @@ const getChangedFiles = async (gumroadConfig: Gumroad) => {
 }
 
 /**
- * gets an array of folder paths to each file in an array of {@link DownloadPage_FileList_Item}s
+ * gets an array of folder paths to each file in an array of {@link ContentItem}s
  *
  * @example
  * const paths = getFolderPaths(items)
  * console.log(paths) // ["folder/filename", "folder/subfolder/otherfile"]
  */
-export const getFolderPaths = (items: DownloadPage_FileList_Item[]): string[] =>
+export const getFolderPaths = (items: ContentItem[]): string[] =>
     items.flatMap((item) =>
         item.type === 'file'
             ? item.file_name
