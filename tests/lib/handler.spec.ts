@@ -1,8 +1,8 @@
-import { DownloadPage_FileList_Item } from '../../src/lib/gumroad'
+import { ContentItem } from '../../src/lib/gumroad'
 import { getFolderPaths } from '../../src/handler'
 import assert from 'typed-nodejs-assert'
 // eslint-disable-next-line @typescript-eslint/no-var-requires -- https://github.com/microsoft/TypeScript/issues/45358
-const items: DownloadPage_FileList_Item[] = require('../fixtures/gumroadItems.json')
+const items: ContentItem[] = require('../fixtures/gumroadItems.json')
 
 test('getFolderPaths', () => {
     assert.deepStrictEqual(

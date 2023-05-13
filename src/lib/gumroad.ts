@@ -5,7 +5,7 @@ import { CookieJar } from 'tough-cookie'
 import axiosCookieJarSupport from 'axios-cookiejar-support'
 import { DataNode } from 'domhandler/lib/node'
 
-export type DownloadPage_FileList_Item = {
+export type ContentItem = {
     id: string
 } & (
     | {
@@ -28,18 +28,17 @@ export type DownloadPage_FileList_Item = {
     | {
           type: 'folder'
           name: string
-          children: DownloadPage_FileList_Item[]
+          children: ContentItem[]
       }
 )
 
-export interface DownloadPage_FileList {
-    content_items: DownloadPage_FileList_Item[]
+export interface DownloadPageWithContent {
+    content: {
+        content_items: ContentItem[]
+    }
 }
 
-export const getFiles = async (
-    gumroadID: string,
-    email: Email,
-): Promise<DownloadPage_FileList_Item[]> => {
+export const getFiles = async (gumroadID: string, email: Email): Promise<ContentItem[]> => {
     const instance = axios.create({ baseURL: 'https://app.gumroad.com', withCredentials: true })
     axiosCookieJarSupport(instance)
     instance.defaults.jar = new CookieJar()
@@ -59,7 +58,7 @@ export const getFiles = async (
                 },
                 { withCredentials: true },
             ),
-            'script[data-component-name="ContentContainer"]',
+            'script[data-component-name="DownloadPageWithContent"]',
         ).children[0] as DataNode).data,
-    ) as DownloadPage_FileList).content_items
+    ) as DownloadPageWithContent).content.content_items
 }
