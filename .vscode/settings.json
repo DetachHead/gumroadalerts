@@ -4,7 +4,7 @@
     "prettier.configPath": ".prettierrc.json",
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
+        "source.fixAll.eslint": "always"
     },
     "eslint.validate": ["typescript"],
     "git.allowForcePush": true,
@@ -14,5 +14,12 @@
     "git.rebaseWhenSync": true,
     "git.suggestSmartCommit": false,
     "git.supportCancellation": true,
-    "diffEditor.ignoreTrimWhitespace": false
+    "git.useCommitInputAsStashMessage": true,
+    "git.pullBeforeCheckout": true,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "files.eol": "\n",
+    "typescript.enablePromptUseWorkspaceTsdk": true,
+    "git.useEditorAsCommitInput": false,
+    "editor.acceptSuggestionOnCommitCharacter": false,
+    "jest.runMode": "on-demand"
 }
