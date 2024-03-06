@@ -1,42 +1,14 @@
-[
-    {
-        "type": "folder",
-        "id": "",
-        "name": "a folder",
-        "children": [
+{
+    "content": {
+        "content_items": [
             {
                 "type": "file",
-                "file_name": "a file",
+                "file_name": "top level file",
                 "description": "",
                 "extension": "MP4",
-                "file_size": 2702934866,
+                "file_size": 2011371764,
                 "pagelength": null,
-                "duration": 1985,
-                "id": "",
-                "download_url": "/r/asdf",
-                "stream_url": null,
-                "audio_params": null,
-                "kindle_data": null,
-                "latest_media_location": null,
-                "content_length": null,
-                "read_url": null,
-                "subtitle_files": []
-            }
-        ]
-    },
-    {
-        "type": "folder",
-        "id": "",
-        "name": "folder with nested folder",
-        "children": [
-            {
-                "type": "file",
-                "file_name": "asdf",
-                "description": "",
-                "extension": "MP4",
-                "file_size": 3187659499,
-                "pagelength": null,
-                "duration": 3456,
+                "duration": 1240,
                 "id": "",
                 "download_url": "",
                 "stream_url": "",
@@ -48,48 +20,55 @@
                 "subtitle_files": []
             },
             {
-                "type": "folder",
-                "id": "",
-                "name": "nested folder",
-                "children": [
-                    {
-                        "type": "file",
-                        "file_name": "file within nested folder",
-                        "description": "",
-                        "extension": "MP4",
-                        "file_size": 3187659499,
-                        "pagelength": null,
-                        "duration": 3456,
-                        "id": "",
-                        "download_url": "",
-                        "stream_url": "",
-                        "audio_params": null,
-                        "kindle_data": null,
-                        "latest_media_location": null,
-                        "content_length": null,
-                        "read_url": null,
-                        "subtitle_files": []
-                    }
-                ]
+                "type": "file",
+                "file_name": "file inside embed group",
+                "description": "",
+                "extension": "MP4",
+                "file_size": 2011371764,
+                "pagelength": null,
+                "duration": 1240,
+                "id": "foo",
+                "download_url": "",
+                "stream_url": "",
+                "audio_params": null,
+                "kindle_data": null,
+                "latest_media_location": null,
+                "content_length": null,
+                "read_url": null,
+                "subtitle_files": []
+            }
+        ],
+        "rich_content_pages": [
+            {
+                "page_id": "",
+                "title": null,
+                "variant_id": "",
+                "description": {
+                    "type": "doc",
+                    "content": [
+                        {
+                            "type": "fileEmbedGroup",
+                            "attrs": {
+                                "uid": "",
+                                "name": "embed group folder"
+                            },
+                            "content": [
+                                {
+                                    "type": "fileEmbed",
+                                    "attrs": {
+                                        "id": "foo",
+                                        "uid": ""
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "type": "paragraph"
+                        }
+                    ]
+                },
+                "updated_at": "2024-03-06T08:28:06Z"
             }
         ]
-    },
-    {
-        "type": "file",
-        "file_name": "top level file",
-        "description": "",
-        "extension": "MP4",
-        "file_size": 2011371764,
-        "pagelength": null,
-        "duration": 1240,
-        "id": "",
-        "download_url": "",
-        "stream_url": "",
-        "audio_params": null,
-        "kindle_data": null,
-        "latest_media_location": null,
-        "content_length": null,
-        "read_url": null,
-        "subtitle_files": []
     }
-]
+}

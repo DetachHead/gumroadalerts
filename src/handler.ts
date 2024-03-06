@@ -8,8 +8,8 @@ import * as s3 from './lib/s3'
 import * as gumroad from './lib/gumroad'
 import { Email } from '@detachhead/ts-helpers/dist/utilityTypes/String'
 import { sendWebhook } from './lib/discord'
-import { ContentItem } from './lib/gumroad'
 import toError from 'to-error'
+import { throwIfUndefined } from 'throw-expression'
 
 export const handler = async (): Promise<void> => {
     await loadConfig()
@@ -61,19 +61,34 @@ const getChangedFiles = async (gumroadConfig: Gumroad) => {
 }
 
 /**
- * gets an array of folder paths to each file in an array of {@link ContentItem}s
+ * gets an array of folder paths to each file
  *
  * @example
  * const paths = getFolderPaths(items)
  * console.log(paths) // ["folder/filename", "folder/subfolder/otherfile"]
  */
-export const getFolderPaths = (items: ContentItem[]): string[] =>
-    items.flatMap((item) =>
-        item.type === 'file'
-            ? item.file_name
-            : getFolderPaths(item.children).map((child) => `${item.name}/${child}`),
+export const getFolderPaths = (data: gumroad.DownloadPageWithContent): string[] => {
+    let allFiles = data.content.content_items.filter(
+        (item): item is gumroad.File => item.type === 'file',
     )
-
+    const result = data.content.rich_content_pages.flatMap((contentPage) =>
+        contentPage.description.content
+            .filter((group): group is gumroad.FileEmbedGroup => group.type === 'fileEmbedGroup')
+            .flatMap((group) =>
+                group.content.flatMap((fileEmbed) => {
+                    allFiles = allFiles.filter((file) => file.id !== fileEmbed.attrs.id)
+                    return `${group.attrs.name}/${
+                        throwIfUndefined(
+                            data.content.content_items.find(
+                                (item): item is gumroad.File => item.id === fileEmbed.attrs.id,
+                            ),
+                        ).file_name
+                    }`
+                }),
+            ),
+    )
+    return [...result, ...allFiles.map((file) => file.file_name)]
+}
 /** outputs a message for the given {@link Gumroad} to a webhook */
 const sendGumroadMessage = async (webhook: Webhook, gumroad: Gumroad, text: string) => {
     await sendWebhook(webhook, `**${gumroad.name}** - ${text}`)
